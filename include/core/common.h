@@ -342,7 +342,7 @@ struct float3 {
         return result;
     }
 
-    [[nodiscard]] float magnitude() const { return std::sqrtf(x * x + y * y + z * z); }
+    [[nodiscard]] float magnitude() const { return sqrt(x * x + y * y + z * z); }
 
     [[nodiscard]] float3 normalize() const {
         float magnitude = this->magnitude();
