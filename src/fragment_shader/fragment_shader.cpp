@@ -1,4 +1,4 @@
-#include "fragment_shader/fragment_shader.h"
+#include <fragment_shader/fragment_shader.h>
 #include <random>
 
 FragmentShader::FragmentShader(Pattern pattern, const matrix4 &transform_matrix, const float3 &view_direction)

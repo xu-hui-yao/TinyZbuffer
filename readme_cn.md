@@ -69,7 +69,7 @@ xcodebuild -configuration Release
 ```cmd
 cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
 cd build
-make -j{proc}
+make -j${proc}
 ```
 
 可执行文件生成于`build/src/`。

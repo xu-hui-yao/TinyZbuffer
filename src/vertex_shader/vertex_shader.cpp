@@ -1,4 +1,5 @@
 #include <vertex_shader/vertex_shader.h>
+#include <algorithm>
 
 VertexShader::VertexShader(const matrix4 &view_matrix, const matrix4 &perspective_matrix, const matrix4 &screen_matrix,
                            int width, int height)

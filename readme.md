@@ -63,7 +63,7 @@ Navigate to the project root directory and run the following commands in the ter
 ```bash
 cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
 cd build
-make -j{proc}
+make -j${proc}
 ```
 
 The executable will be generated in `build/src/`.
@@ -163,8 +163,6 @@ Demonstrates the rendering results of 7 models, with a resolution of $1280\times
     <p style="margin-top: 10px;">BVH Hierarchical</p>
     </div>
 </div>
-
-
 ### Depth shading
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
@@ -209,8 +207,6 @@ Demonstrates the rendering results of 7 models, with a resolution of $1280\times
     <p style="margin-top: 10px;">BVH Hierarchical</p>
     </div>
 </div>
-
-
 ### Blinn-Phong shading
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">

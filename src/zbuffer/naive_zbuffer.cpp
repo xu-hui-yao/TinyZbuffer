@@ -10,10 +10,10 @@ void NaiveZBuffer::apply(const std::shared_ptr<Model> &model, const std::shared_
         float4 p1 = model->vertices[model->faces[tri_id].y];
         float4 p2 = model->vertices[model->faces[tri_id].z];
 
-        int min_x = std::max(static_cast<int>(std::floor(std::min({ p0.x, p1.x, p2.x }))), 0);
-        int max_x = std::min(static_cast<int>(std::ceil(std::max({ p0.x, p1.x, p2.x }))), m_width - 1);
-        int min_y = std::max(static_cast<int>(std::floor(std::min({ p0.y, p1.y, p2.y }))), 0);
-        int max_y = std::min(static_cast<int>(std::ceil(std::max({ p0.y, p1.y, p2.y }))), m_height - 1);
+        int min_x = std::max(static_cast<int>(std::floor(std::min(std::min(p0.x, p1.x), p2.x))), 0);
+        int max_x = std::min(static_cast<int>(std::ceil(std::max(std::max(p0.x, p1.x), p2.x))), m_width - 1);
+        int min_y = std::max(static_cast<int>(std::floor(std::min(std::min(p0.y, p1.y), p2.y))), 0);
+        int max_y = std::min(static_cast<int>(std::ceil(std::max(std::max(p0.y, p1.y), p2.y))), m_height - 1);
 
         for (int y = min_y; y <= max_y; y++) {
             for (int x = min_x; x <= max_x; x++) {

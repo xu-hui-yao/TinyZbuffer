@@ -1,0 +1,15 @@
+/mnt/d/workfield/ZBuffer/build/CMakeFiles/ZBuffer.dir
+/mnt/d/workfield/ZBuffer/build/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/CMakeFiles/rebuild_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/CMakeFiles/rebuild_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/core/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/core/CMakeFiles/rebuild_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/vertex_shader/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/vertex_shader/CMakeFiles/rebuild_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/fragment_shader/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/fragment_shader/CMakeFiles/rebuild_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/zbuffer/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/src/zbuffer/CMakeFiles/rebuild_cache.dir
+/mnt/d/workfield/ZBuffer/build/ext/CMakeFiles/edit_cache.dir
+/mnt/d/workfield/ZBuffer/build/ext/CMakeFiles/rebuild_cache.dir

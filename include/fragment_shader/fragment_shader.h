@@ -2,6 +2,7 @@
 
 #include <core/common.h>
 #include <core/gbuffer.h>
+#include <memory>
 
 enum Pattern {
     ENormal,

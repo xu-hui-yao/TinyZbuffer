@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/common.h>
+#include <memory>
 
 struct Fragment {
   float3 p0, p1, p2;
