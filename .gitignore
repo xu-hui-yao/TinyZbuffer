@@ -1,6 +1,7 @@
 cmake-build-debug
 cmake-build-release
-assets
+assets/stormveil10000k.obj
+assets/stormveil1000k.obj
 .idea
 readme.pdf
 .DS_store
