@@ -2,31 +2,37 @@
 
 
 
-## Introduction
+## 介绍
 
-A simple software rasterizer that includes model loading, vertex shader, zbuffer, and fragment shader functionalities.
+一个简易的软光栅渲染器，包括模型读取、顶点着色器、zbuffer、片段着色器等功能。
 
-- **ZBuffer** includes traditional zbuffer, scanline zbuffer, hierarchical zbuffer, and BVH hierarchical zbuffer.
-- **Fragment Shader** includes rendering normals, rendering depth, rendering triangle face IDs, and the Blinn-Phong lighting model.
+- zbuffer包含传统zbuffer、扫描线zbuffer、层次zbuffer和BVH层次zbuffer。
+- 片段着色器包含渲染法向、渲染深度、渲染三角形面片id、blinnphong光照模型。
 
 
 
-## Building and Running
+## 编译运行
 
-Before compiling, navigate to `main.cpp` and modify:
+请在编译前进入main.cpp将：
 
 ```cpp
 std::vector<std::string> filenames；
 std::vector<std::string> output_filenames；
 ```
 
-to either relative or absolute paths, otherwise the model cannot be loaded or the rendered image saved. You can also modify the `Pattern type` in `main.cpp` to change the fragment shader mode.
+改为合理的相对路径或者绝对路径，否则无法读取模型或者保存渲染图片。同时可以修改main.cpp的
+
+```cpp
+Pattern type
+```
+
+来改变片段着色器的模式。
 
 ### Windows 11
 
-Compiler: Visual Studio 2022
+编译器：Visual Studio 2022
 
-Navigate to the project root directory and run the following commands in cmd:
+进入项目根目录，打开 cmd 运行以下指令：
 
 ```cmd
 mkdir build
@@ -35,44 +41,45 @@ cmake .. -G "Visual Studio 17 2022"
 cmake --build . --config Release
 ```
 
-The executable will be generated in `build/src/Release`.
+可执行文件生成于`build/src/Release`。
 
 ### MacOS
 
-Compiler: Xcode. Ensure that CMake and Xcode command-line tools are installed on your system.
+编译器：xcode。确保你的系统已经安装了 CMake 和 Xcode 命令行工具。
 
-Navigate to the project root directory and run the following commands in the terminal:
+进入项目根目录，打开终端运行以下指令：
 
-```bash
+```
 mkdir build
 cd build
 cmake .. -G "Xcode"
 xcodebuild -configuration Release
 ```
 
-The executable will be generated in `build/src/Release`.
+可执行文件生成于`build/src/Release`。
 
 ### Linux
 
-Compiler: g++.
+编译器：g++。
 
-Navigate to the project root directory and run the following commands in the terminal:
+进入项目根目录，打开终端运行以下指令：
 
-```bash
+```cmd
 cmake -DCMAKE_BUILD_TYPE=Release -S . -B build
 cd build
 make -j{proc}
 ```
 
-The executable will be generated in `build/src/`.
+可执行文件生成于`build/src/`。
 
 
 
-## Results
 
-Demonstrates the rendering results of 7 models, with a resolution of $1280\times 1280$ and face counts of 12, 1K, 4K, 15K, 120K, 144K, and 1000K.
+## 结果展示
 
-### Normal shading
+展示7个模型的渲染结果，分辨率为$1280\times 1280$，面片数量分别为12、1K、4K、15K、120K、144K，1000K。
+
+### 法向渲染
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
     <div>
@@ -116,8 +123,7 @@ Demonstrates the rendering results of 7 models, with a resolution of $1280\times
     <p style="margin-top: 10px;">BVH Hierarchical</p>
     </div>
 </div>
-
-### Triangle id shading
+### 三角形ID渲染
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
     <div>
@@ -162,8 +168,7 @@ Demonstrates the rendering results of 7 models, with a resolution of $1280\times
     </div>
 </div>
 
-
-### Depth shading
+### 深度
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
     <div>
@@ -208,8 +213,7 @@ Demonstrates the rendering results of 7 models, with a resolution of $1280\times
     </div>
 </div>
 
-
-### Blinn-Phong shading
+### Blinn-Phong光照模型渲染
 
 <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px;">
     <div>
@@ -256,16 +260,16 @@ Demonstrates the rendering results of 7 models, with a resolution of $1280\times
 
 
 
-## Performance Comparison
+## 运行效率对比
 
-All performance tests were conducted in a single-threaded environment, with a resolution of $1280\times 1280$.
+所有运行时间测试均在单线程下进行，分辨率为$1280\times 1280$。
 
-![time](./assets/time.png)
+![time](./assets/result/time.png)
 
-The fastest method is the traditional pixel-by-pixel ZBuffer, which works by iterating through each triangle and updating the depth values of pixels within its projected 2D bounding box.
+最快的是原始的逐像素ZBuffer，其原理是遍历每个三角形，更新其投影后的二维包围盒内的像素深度值。
 
-In the range of hundreds of thousands of triangles, the scanline ZBuffer performs similarly to the pixel-by-pixel ZBuffer, though slightly slower. The scanline ZBuffer is theoretically faster than the pixel-by-pixel ZBuffer because it stores the slope information and depth gradients of triangles. However, it incurs additional overhead as it requires building a sorted polygon table and sorted edge table for each frame, and the insertion and deletion operations in the active edge table and active polygon table also consume time. Consequently, when the number of triangles becomes extremely large, the scanline ZBuffer needs to expend significant computational resources to maintain these table relationships, resulting in suboptimal performance at 1000K triangles.
+在几十万面片范畴下扫描线ZBuffer和逐像素ZBuffer表现接近，略慢于逐像素ZBuffer。扫描线ZBuffer因为存储了三角形的斜率信息以及深度梯度信息而理论上快于逐像素ZBuffer，但又因为每帧需要构建分类多边形表和分类边表而额外花费时间，此外活化边表和活化多边形表的插入和删除也会花费部分时间。因此，三角形面片数量巨大时，扫描线ZBuffer需要耗费大量算力于维护表关系上，因此在1000K面片数量下表现不甚理想。
 
-The hierarchical ZBuffer offers a theoretical speedup by allowing entire triangles to be rejected at a coarse level, but this assumes that triangles are traversed from near to far. If triangles are traversed from far to near, the hierarchical ZBuffer not only fails to reject triangles at a coarse level but also wastes additional time on recursive queries and depth updates.
+层次ZBuffer因为可以在粗粒度上拒绝整个三角形而有理论上的加速，但这通常建立在三角形遍历时是从近到远进行遍历的假设。如果三角形是从远到近遍历，那么层次ZBuffer不仅无法在粗粒度上拒绝三角形，而且会因为递归查询和深度更新而浪费额外时间。
 
-The hierarchical bounding volume (BVH) combined with the hierarchical ZBuffer further enables the ZBuffer to reject all triangles within a bounding box at a coarse level. However, the drawback is that each frame requires the construction of a BVH acceleration structure for the triangles projected into NDC space, which cannot be parallelized, thus incurring significant time overhead.
+层次包围盒与层次ZBuffer进一步得使得ZBuffer能够在粗粒度上拒绝Bounding Box内的所有三角形，但是缺点在于每帧需要为投影到NDC空间的三角面片建立BVH加速结构，这一过程无法与计算，从而产生巨大的时间开销。

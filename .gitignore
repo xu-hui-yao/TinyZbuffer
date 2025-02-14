@@ -3,3 +3,4 @@ cmake-build-release
 assets
 .idea
 readme.pdf
+.DS_store

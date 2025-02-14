@@ -8,7 +8,7 @@
 
 struct BVHNode {
     BoundingBox bounding_box;             // Bounding box for the node
-    std::vector<int> primitives;     // Primitives in leaf nodes
+    std::vector<int> primitives;          // Primitives in leaf nodes
     std::shared_ptr<BVHNode> left, right; // Children nodes
     bool is_leaf;                         // Indicates if the node is a leaf
 
