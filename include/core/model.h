@@ -2,6 +2,8 @@
 
 #include <core/boundingbox.h>
 #include <core/common.h>
+#include <cstdint>
+#include <memory>
 
 class Model {
 public:

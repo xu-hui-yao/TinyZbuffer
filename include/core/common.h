@@ -3,9 +3,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 
 #define M_EPSILON 1e-4
+#ifndef M_PI
 #define M_PI 3.14159265358979323846
+#endif
 #define M_INV_PI 0.31830988618379067154
 #define M_INV_TWOPI 0.15915494309189533577
 #define M_INV_FOUR_PI 0.07957747154594766788
@@ -415,7 +418,7 @@ struct float3 {
                 return z;
             default:
                 std::cerr << "Error: index out of range" << std::endl;
-            exit(1);
+                exit(1);
         }
     }
 
@@ -429,7 +432,7 @@ struct float3 {
                 return z;
             default:
                 std::cerr << "Error: index out of range" << std::endl;
-            exit(1);
+                exit(1);
         }
     }
 

@@ -61,30 +61,34 @@ void Bitmap::save_exr(const std::string &filename) const {
     image.width         = width;
     image.height        = height;
     header.num_channels = 3;
-    header.channels     = static_cast<EXRChannelInfo *>(
-        malloc(sizeof(EXRChannelInfo) * header.num_channels));
-    // Must be (A)BGR order, since most of EXR viewers expect this channel
-    // order.
+    header.channels     = static_cast<EXRChannelInfo *>(malloc(sizeof(EXRChannelInfo) * header.num_channels));
+    // Must be (A)BGR order, since most of EXR viewers expect this channel order.
+#if defined(_WIN32) || defined(_WIN64)
     strncpy_s(header.channels[0].name, "B", 255);
     header.channels[0].name[strlen("B")] = '\0';
     strncpy_s(header.channels[1].name, "G", 255);
     header.channels[1].name[strlen("G")] = '\0';
     strncpy_s(header.channels[2].name, "R", 255);
     header.channels[2].name[strlen("R")] = '\0';
+#else
+    strncpy(header.channels[0].name, "B", 255);
+    header.channels[0].name[strlen("B")] = '\0';
+    strncpy(header.channels[1].name, "G", 255);
+    header.channels[1].name[strlen("G")] = '\0';
+    strncpy(header.channels[2].name, "R", 255);
+    header.channels[2].name[strlen("R")] = '\0';
+#endif
 
-    header.pixel_types =
-        static_cast<int *>(malloc(sizeof(int) * header.num_channels));
-    header.requested_pixel_types =
-        static_cast<int *>(malloc(sizeof(int) * header.num_channels));
+    header.pixel_types           = static_cast<int *>(malloc(sizeof(int) * header.num_channels));
+    header.requested_pixel_types = static_cast<int *>(malloc(sizeof(int) * header.num_channels));
     for (int i = 0; i < header.num_channels; i++) {
-        header.pixel_types[i] =
-            TINYEXR_PIXELTYPE_FLOAT; // pixel type of input image
+        header.pixel_types[i]           = TINYEXR_PIXELTYPE_FLOAT; // pixel type of input image
         header.requested_pixel_types[i] = TINYEXR_PIXELTYPE_HALF;
         // pixel type of output image to be stored in .EXR
     }
 
     const char *err = nullptr;
-    int ret = SaveEXRImageToFile(&image, &header, filename.c_str(), &err);
+    int ret         = SaveEXRImageToFile(&image, &header, filename.c_str(), &err);
     if (ret != TINYEXR_SUCCESS) {
         std::cerr << "Save EXR err: " << err << std::endl;
         FreeEXRErrorMessage(err); // free's buffer for an error message
@@ -110,17 +114,15 @@ void Bitmap::save_png(const std::string &filename) const {
             auto srgb = color.to_srgb();
             for (int c = 0; c < 3; ++c) {
                 // Convert to 8-bit by clamping to 0-255 range
-                int index  = ((height - 1 - y) * width + x) * 3 + c;
-                auto value = static_cast<unsigned char>(
-                    clamp(srgb[c] * 255.0f, 0.0f, 255.0f));
+                int index       = ((height - 1 - y) * width + x) * 3 + c;
+                auto value      = static_cast<unsigned char>(clamp(srgb[c] * 255.0f, 0.0f, 255.0f));
                 img_data[index] = value;
             }
         }
     }
 
     // Save as PNG
-    int ret = stbi_write_png(filename.c_str(), width, height, 3,
-                             img_data.data(), width * 3);
+    int ret = stbi_write_png(filename.c_str(), width, height, 3, img_data.data(), width * 3);
     if (ret == 0) {
         throw std::runtime_error("Failed to save PNG file: " + filename);
     }
